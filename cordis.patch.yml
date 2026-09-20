@@ -1,0 +1,5 @@
+# dsh bundle patch: inserts this plugin into a profile's layer stack.
+# Registers one model-facing tool that runs the same preflight checks as the CLI.
+- insert:
+    - id: dsh-plugin-preflight
+      name: 'dsh-plugin-preflight'

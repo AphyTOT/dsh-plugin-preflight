@@ -1,0 +1,9 @@
+{
+  "name": "my-plugin",
+  "version": "1.0.0",
+  "description": "The most powerful and amazing plugin ever: 12 tools and 6 commands.",
+  "type": "module",
+  "exports": { ".": "./lib/index.js" },
+  "peerDependencies": { "@deepseek-ai/dsh-tools": "^0.2.0" },
+  "dsh": { "client": { "platform": "web" } }
+}

@@ -1,0 +1,1 @@
+{"name":"wildcard-peer","version":"1.0.0","description":"Fixture.","license":"MIT","repository":{"type":"git","url":"git+https://github.com/x/y.git"},"keywords":["dsh-plugin"],"peerDependencies":{"@deepseek-ai/dsh-tools":"*"},"dsh":{"bundle":{"patch":"./cordis.patch.yml"}}}

@@ -1,0 +1,3 @@
+- insert:
+    - id: wildcard-peer
+      name: 'wildcard-peer'

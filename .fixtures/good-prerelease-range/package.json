@@ -1,0 +1,10 @@
+{
+  "name": "good-prerelease-range",
+  "version": "1.0.0",
+  "description": "Fixture: a peer range that correctly covers the prerelease line.",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/x/y.git" },
+  "keywords": ["dsh-plugin"],
+  "peerDependencies": { "@deepseek-ai/dsh-tools": "^0.1.5-rc.2" },
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } }
+}
