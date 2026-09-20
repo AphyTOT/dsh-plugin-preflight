@@ -1,0 +1,5 @@
+# The harness reads these files directly; keep LF so a Windows checkout and a
+# maintainer's clone behave identically.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
