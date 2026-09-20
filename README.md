@@ -1,5 +1,7 @@
 # dsh-plugin-preflight
 
+English | [中文](README.zh.md)
+
 Check a [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin **before** you submit it to the
 [community list](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) — or before you publish it at all.
 

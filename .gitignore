@@ -1,3 +1,7 @@
 node_modules/
 .ref/
 *.tgz
+
+# Local status notes, not part of the deliverable.
+STATUS.md
+TODO.md
