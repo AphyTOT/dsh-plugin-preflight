@@ -12,7 +12,7 @@
   ],
   "type": "module",
   "license": "MIT",
-  "author": "YOUR-GITHUB-USERNAME",
+  "author": "AphyTOT",
   "main": "lib/index.js",
   "bin": {
     "dsh-plugin-preflight": "bin/preflight.js"
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR-GITHUB-USERNAME/dsh-plugin-preflight.git"
+    "url": "git+https://github.com/AphyTOT/dsh-plugin-preflight.git"
   },
-  "homepage": "https://github.com/YOUR-GITHUB-USERNAME/dsh-plugin-preflight#readme",
+  "homepage": "https://github.com/AphyTOT/dsh-plugin-preflight#readme",
   "bugs": {
-    "url": "https://github.com/YOUR-GITHUB-USERNAME/dsh-plugin-preflight/issues"
+    "url": "https://github.com/AphyTOT/dsh-plugin-preflight/issues"
   },
   "dsh": {
     "bundle": {
