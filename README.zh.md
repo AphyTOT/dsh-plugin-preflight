@@ -96,6 +96,33 @@ plugin_preflight(dir)
 
 **刻意没有浏览器半侧、没有设置页面**——这是一个开发者诊断工具，给它配个面板只会变成 UI 噪音。
 
+## 本地部署（以及那个会让你丢掉界面的陷阱）
+
+从 npm、GitHub spec 或 tarball 安装都正常工作：
+
+```sh
+dsh plugin --profile web add dsh-plugin-preflight
+```
+
+但用**本地路径**安装是另一回事，动手前值得先知道：
+
+```sh
+dsh plugin --profile web add /path/to/this/checkout   # 创建的是 junction，不是拷贝
+```
+
+pnpm 会链接这个目录，而 Node 解析 ESM 导入时走的是符号链接的**真实路径**。于是 Loader 从该目录
+导入插件时，会沿那棵树向上找 `node_modules`——`D:\node_modules`、`C:\node_modules`——永远走不到
+harness 自己的包。**在模块顶层导入宿主包的插件因此加载失败，而 Loader 会中止整棵插件树：
+DeepSeek Harness 起不来，你本来用来撤销它的那个界面也没了。**
+
+本插件刻意避开了这个结果：它的宿主半侧**惰性导入**工具运行时，因此运行时不可达时它会以
+「仅 CLI」的形态继续挂载，而不是把整个 harness 拖下水。反正 CLI 从来不需要那个运行时——
+真正干活的本来就是它。
+
+如果你在**别的**插件上撞到这个问题，恢复办法是把出问题的条目从
+`$DSH_HOME/profiles/<name>/package.json` 里删掉（`dependencies` 与 `dsh.profile.bundles` 两处），
+然后重新开始。
+
 ## 局限
 
 - 只做结构性检查。它无法判断插件是否名副其实——那需要维护者去读仓库，而数清描述里的"46 个工具"仍然是人的活。

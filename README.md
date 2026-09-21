@@ -100,6 +100,33 @@ plugin_preflight(dir)
 There is **no browser half and no settings page** on purpose — this is a developer diagnostic, and a panel for it
 would be UI noise.
 
+## Deploying it locally (and the trap that costs you the GUI)
+
+Installing from npm, a GitHub spec, or a tarball works normally:
+
+```sh
+dsh plugin --profile web add dsh-plugin-preflight
+```
+
+Installing by **local path** behaves differently, and this is worth knowing before you do it:
+
+```sh
+dsh plugin --profile web add /path/to/this/checkout   # creates a junction, not a copy
+```
+
+pnpm links the directory, and Node resolves ESM imports through a symlink's **real** path. So when the
+Loader imports the plugin from the checkout, it walks up that directory tree looking for `node_modules`
+— `D:\node_modules`, `C:\node_modules` — and never reaches the harness's own packages. A plugin that
+imports a host package at module scope then fails to load, and **the Loader aborts the entire plugin
+tree: DeepSeek Harness does not start, and the GUI you would have used to undo it is gone.**
+
+This plugin avoids that outcome on purpose. Its host half imports the tool runtime lazily, so when the
+runtime is unreachable it stays mounted as a CLI-only plugin instead of taking the harness down. The
+CLI never needed the runtime in the first place — that is the half that does the work.
+
+If you hit this with some *other* plugin, the recovery is to remove the offending entry from
+`$DSH_HOME/profiles/<name>/package.json` (`dependencies` and `dsh.profile.bundles`) and start again.
+
 ## Limitations
 
 - Checks are structural. It cannot tell whether a plugin does what its description claims — a maintainer reads the
