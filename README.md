@@ -85,6 +85,35 @@ declaring a @deepseek-ai/dsh-* peer : 194
 `dsh-market`, the most-installed plugin in the ecosystem, reports no findings — its four-branch peer ranges are
 correct.
 
+## What has actually been verified
+
+Stated plainly, because a claim about coverage is a claim like any other.
+
+**Verified by running it**
+
+- The prerelease rule, against node-semver's own answers: 17 cases, including the range the community
+  list's contributing guide offers as the fix — which was measured **not** to admit `0.1.5-rc.2`.
+- Detection, against two real published plugins and three fixtures built to violate specific rules.
+  `dsh-market` reports no findings; the fixtures are reported.
+- The CLI: real runs, `--json`, and the exit codes (`0` / `1` / `2`).
+- The published tarball: packed, extracted, and its 10 files compared against `files[]`.
+- The host half: installed into a profile, and `plugin_preflight` called inside a live session, returning
+  the same finding count as the CLI. The report renderer is exercised in the same test.
+
+**Verified by construction, not by a test**
+
+- The semver range engine is a purpose-built minimisation of node-semver, not a port. It covers the
+  operators this check needs (`^`, `~`, comparators, hyphen ranges, `||`, wildcards); it is not a general
+  semver implementation and does not try to be.
+
+**Not verified**
+
+- Nothing has been published to npm, so the registry path is untested end to end.
+- The one-day repository-age bar and the `dsh-plugin` topic are unchecked by design.
+- No Windows/macOS/Linux matrix; development happened on Windows only.
+- `peer/prerelease-tuple` has only ever fired against fixtures. Every real plugin it has been pointed at
+  either resolves correctly or is deliberately left alone.
+
 ## Install as a DSH plugin
 
 ```sh
