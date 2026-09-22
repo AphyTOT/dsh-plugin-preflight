@@ -124,7 +124,23 @@ This plugin avoids that outcome on purpose. Its host half imports the tool runti
 runtime is unreachable it stays mounted as a CLI-only plugin instead of taking the harness down. The
 CLI never needed the runtime in the first place — that is the half that does the work.
 
-If you hit this with some *other* plugin, the recovery is to remove the offending entry from
+That resolution failure is structural, not a bug to route around: pnpm deliberately does not install peer
+dependencies, because a second copy of `@deepseek-ai/dsh-tools` would give you two instances of the
+framework. A linked install cannot see the host's copy, so it degrades.
+
+**The practical consequence: installing from a local checkout gives you the CLI only.** The
+`plugin_preflight` tool is silently absent, because registering it requires the runtime that a linked
+install cannot resolve. That is the correct outcome — but it is worth knowing rather than discovering.
+
+**Developing this plugin locally?** Install the built package instead of the checkout when you want the
+tool:
+
+```sh
+npm pack
+dsh plugin --profile web add ./dsh-plugin-preflight-0.1.0.tgz
+```
+
+If you hit the boot failure with some *other* plugin, the recovery is to remove the offending entry from
 `$DSH_HOME/profiles/<name>/package.json` (`dependencies` and `dsh.profile.bundles`) and start again.
 
 ## Limitations

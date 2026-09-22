@@ -119,7 +119,20 @@ DeepSeek Harness 起不来，你本来用来撤销它的那个界面也没了。
 「仅 CLI」的形态继续挂载，而不是把整个 harness 拖下水。反正 CLI 从来不需要那个运行时——
 真正干活的本来就是它。
 
-如果你在**别的**插件上撞到这个问题，恢复办法是把出问题的条目从
+这个解析失败是**结构性的，不是可以绕过的 bug**：pnpm 刻意不安装 peer 依赖，因为
+`@deepseek-ai/dsh-tools` 多一份拷贝就等于框架有了两个实例。链接安装看不到宿主那份，于是降级。
+
+**实际后果：从本地仓库安装，你只得到 CLI。** `plugin_preflight` 工具会静默缺席，因为注册它
+需要链接安装解析不到的那个运行时。这个结果是正确的，但值得事先知道，而不是事后才发现。
+
+**如果你在本地开发这个插件**，想要工具生效就装打包好的产物，而不是仓库目录：
+
+```sh
+npm pack
+dsh plugin --profile web add ./dsh-plugin-preflight-0.1.0.tgz
+```
+
+如果你在**别的**插件上撞到启动失败的问题，恢复办法是把出问题的条目从
 `$DSH_HOME/profiles/<name>/package.json` 里删掉（`dependencies` 与 `dsh.profile.bundles` 两处），
 然后重新开始。
 
