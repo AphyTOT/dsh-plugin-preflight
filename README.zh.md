@@ -32,6 +32,9 @@ npx dsh-plugin-preflight --strict     # 连警告一起拦截，给 CI 用
 | `peer/wildcard` | 裸 `*` 匹配不了任何预发布版 |
 | `files/bin-uncovered` | CLI 不在 `files[]` 里，发布出去的包里就没有它 |
 | `manifest/*`、`description/*`、`metadata/*` | 带 BOM 或无法解析的清单、营销话术、无法核实的数字、缺 `repository.url` |
+| `entry/quoting` | 投稿条目里 `description` 含 `": "` 却没加引号——YAML 会把后面读成嵌套键，整份条目解析失败 |
+| `entry/tarball-rot` | `tarball:` 用 `latest/download/` 且文件名里带版本号：文件名是照字面取的，提交当天有效，下次发版就 404 |
+| `entry/description-en`、`entry/url`、`entry/url-mismatch`、`entry/category` | 条目文件本身：唯一必填字段、url 是否还和 `repository.url` 一致、分类是否在文档给的取值里 |
 
 ## 预发布陷阱
 

@@ -32,6 +32,9 @@ specification. These are the parts of it a machine can verify:
 | `peer/wildcard` | A bare `*` matches no prerelease at all |
 | `files/bin-uncovered` | The CLI is not in `files[]`, so it vanishes from the published tarball |
 | `manifest/*`, `description/*`, `metadata/*` | BOM-corrupted or unparseable manifests, marketing language, unverifiable counts, missing `repository.url` |
+| `entry/quoting` | A submission entry whose `description` contains `": "` without quotes — YAML reads the rest as a nested key and the entry fails to parse |
+| `entry/tarball-rot` | A `tarball:` using `latest/download/` with a version in the filename: the filename is taken literally, so it works today and 404s after your next release |
+| `entry/description-en`, `entry/url`, `entry/url-mismatch`, `entry/category` | The entry file itself: the only required field, whether the url still matches `repository.url`, and whether the category is one of the documented values |
 
 ## The prerelease trap
 
@@ -59,6 +62,24 @@ x [peer/prerelease-tuple] peer "@deepseek-ai/dsh-tools": "^0.2.0" does NOT match
   the installed @deepseek-ai/dsh-tools@0.1.5-rc.2
     fix: e.g. ">=0.1.5-0 <0.2.0-0"
 ```
+
+### The submission entry file
+
+The list's own rules apply to two artifacts, not one: your repository **and** the entry file you
+open a PR with. `.submission/*.yml` in your repo is the copy of it — the file the maintainer will
+read. Pass `--entry <path>` to point at it wherever you keep it.
+
+Two of those rules are text-only traps, both called out in the contributing guide, and both checked
+here because they cost a rejection without any code being wrong:
+
+- **The colon trap.** A description containing `": "` must be quoted. Unquoted, YAML reads the rest
+  of the line as a nested key and the entry fails to parse.
+- **The tarball rot.** With `latest/download/`, `latest` is resolved at request time but the filename
+  is taken literally. If the asset carries a version, the link works the day you submit it and 404s
+  after your next release — "a quiet rot nobody notices, least of all you".
+
+Neither needs the network: both are decided from the text. When you keep no entry file, these checks
+say nothing at all, which is the same restraint the tool applies to peer ranges.
 
 ### What it deliberately does not claim
 

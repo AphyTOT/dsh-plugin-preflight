@@ -1,0 +1,6 @@
+url: https://github.com/example/demo-plugin
+name: example/demo-plugin
+category: dev
+tarball: https://github.com/example/demo-plugin/releases/latest/download/demo-plugin-1.0.0.tgz
+description:
+  en: 'A demo plugin: it does one thing.'
