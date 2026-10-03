@@ -1,0 +1,5 @@
+url: https://github.com/example/demo-plugin
+name: example/demo-plugin
+category: dev
+description:
+  en: Vision toolkit: OCR, grounding and pixel diff.
